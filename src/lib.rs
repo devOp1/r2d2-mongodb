@@ -9,7 +9,7 @@ use std::error::Error as _StdError;
 use mongodb::{ThreadedClient, Client};
 use mongodb::db::ThreadedDatabase;
 
-use backtrace::Backtrace;
+//use backtrace::Backtrace;
 
 pub const ADMIN_DB_NAME: &'static str = "admin";
 
@@ -96,7 +96,7 @@ impl r2d2::ManageConnection for MongodbConnectionManager {
             }
             let adb = client.db(ADMIN_DB_NAME);
             adb.auth(&cs.user.unwrap(),&password).expect("need username/password");
-            println!("new authentication completed: {:?}\n bt (not an error): {:?}", uri,Backtrace::new());
+            //println!("new authentication completed: {:?}\n bt (not an error): {:?}", uri,Backtrace::new());
             Ok(client)
         } else {
             Err(Error::Other(mongodb::error::Error::DefaultError("db host and uri not set".to_owned())))
