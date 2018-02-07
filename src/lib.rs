@@ -88,14 +88,18 @@ impl r2d2::ManageConnection for MongodbConnectionManager {
             let result = Client::with_uri(uri).map_err(|err| Error::Other(err));
             let client: Client = result.unwrap();
             let cs = mongodb::connstring::parse(uri).unwrap();
-            let password;
+            let password: Option<String>;
             if let Some(ref uri_unfriendly_password) = self.password {
-               password = uri_unfriendly_password;
+               password = Some(uri_unfriendly_password.clone());
             } else {
-                password = &cs.password.as_ref().unwrap();
+                password = cs.password;
             }
-            let adb = client.db(ADMIN_DB_NAME);
-            adb.auth(&cs.user.unwrap(),&password).expect("need username/password");
+            if let Some(u) = cs.user {
+                if let Some(p) = password {
+                    let adb = client.db(ADMIN_DB_NAME);
+                    adb.auth(&u,&p).expect("need username/password");
+                }
+            }
             //println!("new authentication completed: {:?}\n bt (not an error): {:?}", uri,Backtrace::new());
             Ok(client)
         } else {
