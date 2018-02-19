@@ -38,12 +38,22 @@ impl error::Error for Error {
     }
 }
 
-#[derive(Default)]
 pub struct MongodbConnectionManager {
     host: Option<String>,
     port: u16,
     uri: Option<String>,
     password: Option<String>,
+}
+
+impl Default for MongodbConnectionManager {
+    fn default() -> MongodbConnectionManager { 
+        MongodbConnectionManager {
+            host: None,
+            port: 27017,
+            uri: None,
+            password: None,
+        }
+    }
 }
 
 impl MongodbConnectionManager {
