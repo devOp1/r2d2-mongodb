@@ -15,6 +15,5 @@ test = false
 [dependencies]
 r2d2 = "0.8.1"
 bson = "0.10.0"
-#mongodb = "0.3.7"
-mongodb = { git = "https://github.com/MiesJansen/mongo-rust-driver-prototype.git" }
+mongodb = "0.3.7"
 backtrace = "0.2"
